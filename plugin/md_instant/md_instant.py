@@ -5,11 +5,12 @@ import threading
 import sys
 import os
 import json
-from markdown import markdown
+from markdown2 import markdown
 
 import ws
 
-markdown_options = ['extra', 'codehilite']
+#markdown_options = ['extra', 'codehilite']
+markdown_options = ["wiki-tables", "code-friendly"]
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -33,8 +34,8 @@ class MyHandler(BaseHTTPRequestHandler):
 
 
 def sendall(data):
-    #html = markdown('\n'.join(data).decode('utf-8'), markdown_options)
-    html = markdown('\n'.join(data), markdown_options)
+    #html = markdown('\n'.join(data), markdown_options)
+    html = markdown('\n'.join(data), extras = markdown_options)
     threading.Thread(target=ws.sendall, args=(json.dumps(html),)).start()
 
 
@@ -45,11 +46,10 @@ def startbrowser():
     elif sys.platform.startswith('win'):
         os.system('start '+url)
     else:
-        os.system('xdg-open '+url)
+        os.system('xdg-open %s > /dev/null' % url)
 
-
-t_server = None
 t_ws = None
+t_server = None
 
 
 def startserver():
@@ -58,13 +58,18 @@ def startserver():
 
 
 def stopserver():
-    t_server._Thread__stop()
-    t_ws._Thread__stop()
+    print('stop')
+    t_ws._stop()
+    t_server._stop()
 
 
 def main():
     global t_server, t_ws
     t_ws = threading.Thread(target=ws.main)
     t_server = threading.Thread(target=startserver)
+    t_ws.daemon = True
+    t_server.daemon = True
     t_ws.start()
+    print("t_ws Thread started target ws.main()")
     t_server.start()
+    print("t_server Thread started target startserver 7000 server")

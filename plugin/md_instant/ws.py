@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import socket
+from termcolor import colored
 import base64
 import hashlib
 import struct
@@ -18,7 +19,6 @@ class WebSocket():
         for line in data.split('\r\n\r\n')[0].split('\r\n')[1:]:
             k, v = line.split(': ')
             if k == 'Sec-WebSocket-Key':
-                #key = base64.b64encode(hashlib.sha1((v + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11').encode('utf-8)).digest())
                 t1 = hashlib.sha1((v + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11').encode('utf-8'))
                 key = base64.b64encode(t1.digest()).decode()
         if not key:
@@ -34,6 +34,7 @@ class WebSocket():
     @staticmethod
     def recv(conn, size=8192):
         data = conn.recv(size)
+        data = data.decode('utf-8', 'replace')
         if not len(data):
             return False
         length = ord(data[1]) & 127
@@ -53,25 +54,28 @@ class WebSocket():
                       
     @staticmethod
     def send(conn, data):
-        head = '\x81'
+        head = b'\x81'
         if len(data) < 126:
-            head += struct.pack('B', len(data)).decode()
+            head += struct.pack('B', len(data))
         elif len(data) <= 0xFFFF:
-            head += struct.pack('!BH', 126, len(data)).decode()
+            head += struct.pack('!BH', 126, len(data))
         else:
-            head += struct.pack('!BQ', 127, len(data)).decode()
-        conn.send((head+data).encode())
+            head += struct.pack('!BQ', 127, len(data))
+        conn.send((head+data.encode()))
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 socket_list = set()
+
 
 def sendall(data):
     for sock in socket_list:
         if sock != server:
             WebSocket.send(sock, data)
 
-def process(conn, data): #you should change this method
+
+def process(conn, data):
     WebSocket.send(conn, data)
+
 
 def main(handle=process):
     port = 7001
@@ -82,12 +86,9 @@ def main(handle=process):
         print(e)
         exit()
     socket_list.add(server)
-    print('server start on port %d' % port)
     while True:
-        print('go on')
         r, w, e = select(socket_list, [], [])
-        copyr = r.copy()
-        for sock in copyr:
+        for sock in r:
             if sock == server:
                 conn, addr = sock.accept()
                 if WebSocket.handshake(conn):

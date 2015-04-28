@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset=utf-8>
-    <title>python vim instant markdown</title>
+    <title>Markdown2 by Doom</title>
     <style type='text/css'> <!-- github markdown style from Mou -->
       *{margin:0;padding:0;}
       body {
@@ -74,7 +74,7 @@
       dd{margin-left:2em;margin-bottom:1em;}
       @media screen and (min-width: 768px) {
         body {
-          width: 748px;
+          width: 100%;
           margin:10px auto;
         }
       }
@@ -158,13 +158,12 @@
       }
 
       function openConnection() {
-        conn = new WebSocket('ws://127.0.0.1:7001');    
-        document.body.innerHTML = 'Connecting...'
-        conn.onopen = function () {
-          document.body.innerHTML = 'Connected.'
+        ws = new WebSocket('ws://127.0.0.1:7001');    
+          <!--document.body.innerHTML = 'Connecting.doom..'-->
+        ws.onopen = function () {
+          alert("Connected")
         };
-
-        conn.onmessage = function (event) {
+        ws.onmessage = function (event) {
           var html = JSON.parse(event.data);
           var i, s = '';
           for(i = 0; i < 20; i++) s += '<br />';
@@ -174,8 +173,8 @@
           document.getElementById('bottom').scrollIntoView();
         };
 
-        conn.onclose = function (event) {
-          document.body.innerHTML = 'Disconnected.'
+        ws.onclose = function (event) {
+          alert("Disconnect")
         };
       }
 
@@ -187,7 +186,8 @@
       MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]], processEscapes: true } });
     </script>
     <script type="text/javascript" 
-      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> 
+      <!--src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> -->
+      src="MathJax.js"> 
     </script>
   </body>
 </html>
