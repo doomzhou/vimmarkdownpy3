@@ -5,7 +5,7 @@ thanks for scturtle and his vim-instant-markdown-py project
 
 ##Requirements
 * python and markdown and pygments package
-* vim should have python support, you can check it `vim --version | grep +python`
+* vim should have python support, you can check it `vim --version | grep +python3`
 
 ##Installation
 * `pip install markdown` and `pip install pygments`
