@@ -25,7 +25,6 @@ def main():
     #vim.command('autocmd VimLeave * call CloseMarkdown()')
     md_instant.main()
     md_instant.startbrowser()
-    time.sleep(2)
     md_instant.sendall("hello doom")
 
 def updatemarkdown():
@@ -41,5 +40,4 @@ def closemarkdown():
     '''
 if __name__ == "__main__":
     main()
-    time.sleep(10)
     md_instant.sendall("hello doom")

@@ -22,7 +22,6 @@ vim.command('autocmd VimLeavePre * call CloseMarkdown()')
 import md_instant
 md_instant.main()
 md_instant.startbrowser()
-time.sleep(3)
 #vim.command("let einfo = '%s'" % 's')
 md_instant.sendall(vim.current.buffer)
 EOF

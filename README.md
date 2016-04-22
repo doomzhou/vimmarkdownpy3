@@ -8,7 +8,7 @@ thanks for scturtle and his vim-instant-markdown-py project
 * vim should have python support, you can check it `vim --version | grep +python3`
 
 ##Installation
-* `pip install markdown` and `pip install pygments`
+* `pip install markdown2` and `pip install pygments`
 * put `md_instant.vim` and the folder `md_instant` in `~/.vim/plugin` or use pathogen
 
 ##Run
