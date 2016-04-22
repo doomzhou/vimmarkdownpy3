@@ -158,10 +158,9 @@
       }
 
       function openConnection() {
-        ws = new WebSocket('ws://127.0.0.1:7001');    
-          <!--document.body.innerHTML = 'Connecting.doom..'-->
+        ws = new WebSocket('ws://' + document.domain + ':7001');    
         ws.onopen = function () {
-          alert("Connected")
+          console.log("Connected")
         };
         ws.onmessage = function (event) {
           var html = JSON.parse(event.data);
@@ -169,12 +168,12 @@
           for(i = 0; i < 20; i++) s += '<br />';
           var bottom = '<div id="bottom"></div>'
           document.body.innerHTML = html+s+bottom;
-          MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+          <!--MathJax.Hub.Queue(["Typeset",MathJax.Hub]);-->
           document.getElementById('bottom').scrollIntoView();
         };
 
         ws.onclose = function (event) {
-          alert("Disconnect")
+          console.log("Disconnect")
         };
       }
 
@@ -185,9 +184,7 @@
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]], processEscapes: true } });
     </script>
-    <script type="text/javascript" 
-      <!--src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> -->
-      src="MathJax.js"> 
-    </script>
+    <!--<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>-->
+    <!--<script type="text/javascript" src="MathJax.js"></script>-->
   </body>
 </html>
