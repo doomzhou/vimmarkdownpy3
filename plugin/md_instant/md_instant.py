@@ -9,8 +9,7 @@ from markdown2 import markdown
 
 import ws
 
-#markdown_options = ['extra', 'codehilite']
-markdown_options = ["wiki-tables", "code-friendly"]
+markdown_options = ["tables", "code-friendly"]
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 
