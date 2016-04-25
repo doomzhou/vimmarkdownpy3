@@ -64,6 +64,7 @@ class WebSocket():
         conn.send((head+data.encode()))
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 socket_list = set()
 
 
