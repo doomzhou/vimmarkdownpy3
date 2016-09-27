@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import socket
-from termcolor import colored
 import base64
 import hashlib
 import struct
